@@ -10,7 +10,7 @@ class Client extends Modules\BaseCollection {
         } else {
             $this->connection = new Transport($tp_api_link, $user, $pass);
         }
-        $this->base_client = $this;
+        parent::__construct($this, '');
     }
 
 
