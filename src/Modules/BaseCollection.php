@@ -26,7 +26,7 @@ class BaseCollection {
         return $this->response;
     }
 
-    public function get($id, $args = null) {
+    public function get($id = '', $args = null) {
         return $this->connection->get($this->url . $id . '/', $args);
     }
 

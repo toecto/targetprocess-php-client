@@ -21,27 +21,71 @@ PHP client for Target Process Management Software
 
 ## Using
 
-Collections are implemented as dinamic methods. For example `$tp_client->Assignables()` or  `$tp_client->Assignables()`
+Collections are implemented as dinamic methods. For example `$tp_client->Tasks()` or  `$tp_client->Users()` and etc.
 
 Use [reference](https://md5.tpondemand.com/api/v1/index/meta) to get collection names
 
+Create client
+
+`$cl = new \ToEcto\TargetprocessPHPClient\Client('http://domain.com/api/v1/', 'user', 'password');`
+
+
+Get list of objects, it is limited yoyu will have to request more with additional parameters if list is long
 
 ```
-$tp = new \ToEcto\TargetprocessPHPClient\Client('http://domain.com/api/v1/', 'user', 'password');
+$array = $cl->Users()->get();
+$array = $cl->Users()->get('', array('take' => 25, 'skip' => 25));
+```
 
-$tp_client->Assignables()->get($id); // Get one object
-$tp_client->Assignables()->get($id, $args); // $args - is  array of additional GET aruments
+Will make few requests for at gete full list
+Be carefull with long lists!
 
-$tp_client->Assignables()->getAll(); // Get all, will make multiple http requests
-$tp_client->Assignables()->get(''); // usefull if you want handle list manualy
+`$array = $cl->Users()->getAll();`
+
+Get one user
+
+`$array = $cl->Users()->get(18); `
+
+Add object
+
+`$cl->Users()->add($array);`
+
+Update object
+
+`$cl->Users()->set($id, $array);`
 
 
-$tp_client->Assignables()->add($arr); // $arr - is the object to add in to the collection
-$tp_client->Assignables()->set($id, $arr); // update object
-
-// NOTE: add() and set() return client object itself
-
-// Use getResponce in order to get last responce object
-$tp_client->getResponse(); 
+Note: `add()` and `set()` return client object itself
+Use `getResponce()` in order to get last responce object:
 
 ```
+$cl->getResponse();
+```
+
+
+Handle errors for default transport
+
+```
+try {
+    $tp_entity = $tp_client->Assignables()->get($entityID);
+} catch (\GuzzleHttp\Exception\ClientException $e) {
+    if ($e->getResponse()->getStatusCode() == 404) {
+        error_log('Entity tp-'.$entityID.' does not exist');
+        return;
+    }
+}
+```
+
+## Sub collections
+
+Get All tasks for user with id = 18
+
+`$array = $cl->Users()->open(18)->Assignables()->getAll();`
+
+Dynamic properties shortcut
+
+`$array = $cl->Users()->open(18)->Assignables;`
+
+is equal to
+
+`$array = $cl->Users()->open(18)->Assignables()->get();`
