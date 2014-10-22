@@ -12,12 +12,7 @@ class Transport {
                 'headers' => array(
                     'Accept' => 'application/json',
                 ),
-                'config' => array(
-                    'curl' => array(
-                        CURLOPT_HTTPAUTH => CURLAUTH_NTLM,
-                        CURLOPT_USERPWD  => $user . ':' . $pass
-                    )
-                )
+                'auth' => [$user, $pass]
             )
         );
 
