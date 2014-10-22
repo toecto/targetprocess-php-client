@@ -56,7 +56,7 @@ Update object
 
 
 Note: `add()` and `set()` return client object itself
-Use `getResponce()` in order to get last responce object:
+Use `getResponse()` in order to get last responce object:
 
 ```
 $cl->getResponse();
