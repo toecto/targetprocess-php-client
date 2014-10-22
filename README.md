@@ -56,6 +56,14 @@ Add object
 
 ```php
 $cl->Users()->add($array);
+
+// Example: add a new bug
+$params = array(
+	'Project' => array('Id' => $project),
+	'Name' => $title,
+	'Description' => $description,
+);
+$bug = $cl->Bugs()->add($params)->getResponse();
 ```
 
 Update object
