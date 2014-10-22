@@ -5,16 +5,25 @@ namespace ToEcto\TargetprocessPHPClient;
 class Transport {
     protected $http_client;
 
-    public function __construct($tp_api_link, $user, $pass) {
-        $this->http_client = new \GuzzleHttp\Client(array(
+    public function __construct($tp_api_link, $user, $pass, $guzzle_config = array()) {
+        $default_guzzle_config = array(
             'base_url' => $tp_api_link,
             'defaults'=> array(
                 'headers' => array(
                     'Accept' => 'application/json',
                 ),
-				'auth'    => array($user, $pass),
+                'config' => array(
+                    'curl' => array(
+                        CURLOPT_HTTPAUTH => CURLAUTH_NTLM,
+                        CURLOPT_USERPWD  => $user . ':' . $pass
+                    )
+                )
             )
-        ));
+        );
+
+        $merged_guzzle_config = array_merge($default_guzzle_config, $guzzle_config);
+
+        $this->http_client = new \GuzzleHttp\Client($merged_guzzle_config);
     }
 
     public function get($collection, $query = null) {
