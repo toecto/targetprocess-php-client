@@ -30,7 +30,7 @@ Create client
 `$cl = new \ToEcto\TargetprocessPHPClient\Client('http://domain.com/api/v1/', 'user', 'password');`
 
 
-Get list of objects, it is limited yoyu will have to request more with additional parameters if list is long
+Get list of objects, it is limited you will have to request more with additional parameters if list is long
 
 ```
 $array = $cl->Users()->get();
