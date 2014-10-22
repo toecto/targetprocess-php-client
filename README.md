@@ -89,3 +89,24 @@ Dynamic properties shortcut
 is equal to
 
 `$array = $cl->Users()->open(18)->Assignables()->get();`
+
+## Overriding Guzzle client config
+
+If for any reason you need to override the Guzzle client config, you can do it like this:
+
+```php
+$connection = new Transport($url, $params['username'], $params['password'], array(
+    'defaults'=> array(
+        'headers' => array(
+            'Accept' => 'application/json',
+        ),
+        'config' => array(
+            'curl' => array(
+                CURLOPT_HTTPAUTH => CURLAUTH_NTLM,
+                CURLOPT_USERPWD  => $user . ':' . $pass
+            )
+        )
+    )
+));
+$targetprocessClient = new Client($connection);
+```
