@@ -95,7 +95,7 @@ is equal to
 If for any reason you need to override the Guzzle client config, you can do it like this:
 
 ```php
-$connection = new Transport($url, $params['username'], $params['password'], array(
+$connection = new \ToEcto\TargetprocessPHPClient\Transport($url, $params['username'], $params['password'], array(
     'defaults'=> array(
         'headers' => array(
             'Accept' => 'application/json',
@@ -108,5 +108,5 @@ $connection = new Transport($url, $params['username'], $params['password'], arra
         )
     )
 ));
-$targetprocessClient = new Client($connection);
+$targetprocessClient = new \ToEcto\TargetprocessPHPClient\Client($connection);
 ```
