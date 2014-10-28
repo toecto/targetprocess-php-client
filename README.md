@@ -27,12 +27,14 @@ Use [reference](https://md5.tpondemand.com/api/v1/index/meta) to get collection 
 
 Create client
 
-`$cl = new \ToEcto\TargetprocessPHPClient\Client('http://domain.com/api/v1/', 'user', 'password');`
+```php
+$cl = new \ToEcto\TargetprocessPHPClient\Client('http://domain.com/api/v1/', 'user', 'password');
+```
 
 
 Get list of objects, it is limited you will have to request more with additional parameters if list is long
 
-```
+```php
 $array = $cl->Users()->get();
 $array = $cl->Users()->get('', array('take' => 25, 'skip' => 25));
 ```
@@ -40,32 +42,48 @@ $array = $cl->Users()->get('', array('take' => 25, 'skip' => 25));
 Will make few requests for at gete full list
 Be carefull with long lists!
 
-`$array = $cl->Users()->getAll();`
+```php
+$array = $cl->Users()->getAll();
+```
 
 Get one user
 
-`$array = $cl->Users()->get(18); `
+```php
+$array = $cl->Users()->get(18);
+```
 
 Add object
 
-`$cl->Users()->add($array);`
+```php
+$cl->Users()->add($array);
+
+// Example: add a new bug
+$params = array(
+	'Project' => array('Id' => $project),
+	'Name' => $title,
+	'Description' => $description,
+);
+$bug = $cl->Bugs()->add($params)->getResponse();
+```
 
 Update object
 
-`$cl->Users()->set($id, $array);`
+```php
+$cl->Users()->set($id, $array);
+```
 
 
 Note: `add()` and `set()` return client object itself
 Use `getResponse()` in order to get last responce object:
 
-```
+```php
 $cl->getResponse();
 ```
 
 
 Handle errors for default transport
 
-```
+```php
 try {
     $tp_entity = $tp_client->Assignables()->get($entityID);
 } catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -80,15 +98,21 @@ try {
 
 Get All tasks for user with id = 18
 
-`$array = $cl->Users()->open(18)->Assignables()->getAll();`
+```php
+$array = $cl->Users()->open(18)->Assignables()->getAll();
+```
 
 Dynamic properties shortcut
 
-`$array = $cl->Users()->open(18)->Assignables;`
+```php
+$array = $cl->Users()->open(18)->Assignables;
+```
 
 is equal to
 
-`$array = $cl->Users()->open(18)->Assignables()->get();`
+```php
+$array = $cl->Users()->open(18)->Assignables()->get();
+```
 
 ## Overriding Guzzle client config
 
