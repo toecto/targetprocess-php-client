@@ -3,17 +3,16 @@
 namespace ToEcto\TargetprocessPHPClient;
 
 class Transport {
+
     protected $http_client;
 
     public function __construct($tp_api_link, $user, $pass, $guzzle_config = array()) {
         $default_guzzle_config = array(
-            'base_url' => $tp_api_link,
-            'defaults'=> array(
-                'headers' => array(
-                    'Accept' => 'application/json',
-                ),
-                'auth' => [$user, $pass]
-            )
+            'base_uri' => $tp_api_link,
+            'auth' => [$user, $pass],
+            'headers' => array(
+                'Accept' => 'application/json',
+            ),
         );
 
         $merged_guzzle_config = array_merge($default_guzzle_config, $guzzle_config);
@@ -38,7 +37,11 @@ class Transport {
             $data['json'] = $body;
         }
         $target = $collection;
-        return $this->http_client->$method($target, $data)->json();
+
+        /** @var \GuzzleHttp\Psr7\Response $response */
+        $response = $this->http_client->$method($target, $data);
+
+        return json_decode($response->getBody(), true);
     }
 
 }
